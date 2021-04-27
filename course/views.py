@@ -17,12 +17,12 @@ def category_view(request):
     category_serializer=CategorySerializer(category, many=True)
     context['status']='successful'
     context['category']=category_serializer.data
-    serializer=category_serializer.data
     return Response(context)
 
+
 @api_view(['GET'])
-def task_view(request):
-    task=Task.objects.filter(status=STATUS_PUBLISH)
+def task_view(request, slug):
+    task=Task.objects.filter(status=STATUS_PUBLISH, category__slug=slug)
     print(task)
     context={}
     serializer=TaskSerializer(task, many=True,context={'account':get_user(request)})

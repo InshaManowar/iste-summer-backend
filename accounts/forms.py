@@ -7,27 +7,27 @@ from accounts.models import Account
 class RegistrationForm(UserCreationForm):
     email=forms.EmailField(
         help_text='Required. Add a valid email address',
-        widget=forms.EmailInput(attrs={'class':'form-control'}),
+        widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'email'}),
         label=''
     )
     first_name=forms.CharField(
-		widget=forms.TextInput(attrs={'class':'form-control'}),
+		widget=forms.TextInput(attrs={'class':'form-control','placeholder':'first name'}),
   		label=''
 	)
     last_name=forms.CharField(
-		widget=forms.TextInput(attrs={'class':'form-control'}),
+		widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'last name'}),
 		label=''
 	)
     registration_number=forms.CharField(
-		widget=forms.TextInput(attrs={'class':'form-control'}),
+		widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Registration Number'}),
 		label=''
 	)
     password1=forms.CharField(
-		widget=forms.PasswordInput(attrs={'class':'form-control'}),
+		widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Password'}),
 		label=''
 	)
     password2=forms.CharField(
-		widget=forms.PasswordInput(attrs={'class':'form-control'}),
+		widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Confirm Password'}),
 		label=''
 	)
     

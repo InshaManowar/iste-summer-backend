@@ -21,17 +21,20 @@ class CategoryAdmin(admin.ModelAdmin):
 class ResourcesAdmin(admin.StackedInline):
     model=Resources
     
-
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
+    list_display=('category','status','start_date','last_date','pdf_file',)
+
     inlines=[SubmissionAdmin, ResourcesAdmin]
     
 @admin.register(Organiser)
 class OrganiserAdmin(admin.ModelAdmin):
+    list_display=('name','contact','category',)
     pass
 
 @admin.register(Resources)
 class ResourcesAdmin(admin.ModelAdmin):
+    list_display=('video_title','task',)
     pass
 
 admin.site.register(Category, CategoryAdmin)

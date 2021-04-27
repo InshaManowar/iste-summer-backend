@@ -1,13 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from accounts.models import Account
-from course.models import Submission
+from course.models import Submission, Resources
 
 class SubmissionAdmin(admin.StackedInline):
     model=Submission
 
 class AccountAdmin(UserAdmin):
-    ordering=['email'] #this was defined in the parent class
+    ordering=['email'] 
     fieldsets = [
         (('Login Information'), {'fields': ('email', 'password')}),
         (('Personal info'), {'fields': ('first_name', 'last_name','registration_number')}),
@@ -23,22 +23,11 @@ class AccountAdmin(UserAdmin):
             'fields': ( 'password1', 'password2','email'),
         }),
     ]
-    list_display = ('email', 'date_joined', 'last_login', 'is_active', 'is_staff',)
+    list_display = ('first_name','last_name','email', 'last_login', 'registration_number', 'is_active', 'is_staff',)
    # ordering = ('-is_shop','is_active')
     search_fields=['email']
     inlines=[SubmissionAdmin]
 
-
-
-
-# class AccountAdmin(UserAdmin):
-#     list_display = ('email', 'username', 'date_joined', 'last_login', 'is_active', 'is_staff',)
-#     search_fields = ['email', 'username', 'first_name']
-#     readonly_fields = ('date_joined', 'last_login')
-#     filter_horizontal = ()
-#     list_filter = ()
-#     fieldsets = ()
-#     inlines=[SubmissionAdmin]
 
 @admin.register(Submission)
 class SubmissionAdmin(admin.ModelAdmin):

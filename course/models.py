@@ -8,17 +8,18 @@ from django.core.validators import FileExtensionValidator
 from shortuuidfield import ShortUUIDField
 from accounts.models import Account
 
-#/task/category_name/filename
 
 def upload_location(instance, filename, *kwargs):
-	file_path = 'task/{pdf_title}-{filename}'.format(
+	file_path = f'task/{instance.category.title}/{filename}'.format(
      pdf_title=str(instance.category), filename=filename)
 	return file_path
 
 
 
 def upload_location_submission(instance, filename, *kwargs):
-    file_path=f'submissions/{instance.account.email}/{filename}'
+    file_path=f'submissions/{instance.account.email}/{filename}'.format(
+        pdf_title=str(instance.account), filename=filename
+    )
     return file_path
 
 
@@ -33,8 +34,9 @@ STATUS = (
 class Category(models.Model):
     title=models.CharField(max_length=100)
     short_description=models.TextField(default='')
-    startdate = models.DateTimeField()
-
+    startdate=models.DateTimeField()
+    slug = models.SlugField(max_length=200, unique=True, blank=True)
+    
     class Meta:
         ordering=['startdate']
         verbose_name_plural='Categories'
@@ -54,7 +56,7 @@ class Organiser(models.Model): #under category
 
 class Task(models.Model): #under category
     uuid= ShortUUIDField(unique=True)
-    category=models.ForeignKey(Category, on_delete=models.CASCADE)
+    category=models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category')
     title=models.CharField(max_length=100)
     description=models.TextField(blank=True, default=None)
     pdf_file= models.FileField(upload_to=upload_location, validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
@@ -85,4 +87,14 @@ class Submission(models.Model):
                         )
     comments=models.TextField(blank=True, null=True)
     date=models.DateTimeField(verbose_name='submit_date', auto_now_add=True)
+    def __str__(self):
+        return self.task.title+'--->'+self.account.first_name
     
+    
+ 
+ 
+def pre_save_blog_post_receiver(sender, instance, *args, **kwargs):
+	if not instance.slug:
+		instance.slug = slugify(instance.title)
+
+pre_save.connect(pre_save_blog_post_receiver, sender=Category)
