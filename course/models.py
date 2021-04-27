@@ -90,11 +90,11 @@ class Submission(models.Model):
     def __str__(self):
         return self.task.title+'--->'+self.account.first_name
     
-    
- 
- 
+
 def pre_save_blog_post_receiver(sender, instance, *args, **kwargs):
 	if not instance.slug:
 		instance.slug = slugify(instance.title)
-
 pre_save.connect(pre_save_blog_post_receiver, sender=Category)
+
+
+
