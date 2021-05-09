@@ -61,7 +61,7 @@ def login_view(request):
 
 
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def get_logged_in_user(request):
     context = {}
     serializer=UserSerializer(get_user(request))
