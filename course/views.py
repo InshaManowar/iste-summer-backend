@@ -25,7 +25,7 @@ def category_view(request):
 def profile_view(request):
     category=Category.objects.all()
     context={}
-    profile_serializer=ProfileSerializer(category, many=True)
+    profile_serializer=ProfileSerializer(category, many=True) #TODO: Pass context of user object into serializer
     context['count']=profile_serializer.data
     return Response(context)
 
@@ -59,7 +59,7 @@ def submission_view(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated]) #FIXME: Create a submission object and save it with appropriate parameters
 def submit_file(request):
     context={}
     try:

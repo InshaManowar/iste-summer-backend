@@ -6,6 +6,11 @@ from . import views
 
 app_name='accounts'
 
+#TODO: Password reset,
+#TODO: Email verification,
+#TODO: Frontend changes for login 
+#TODO: Front end changed for logout page
+
 urlpatterns = [
     path('api/get_user/', views.get_logged_in_user, name='login_user_api'),
     path('register/', views.registration_view, name='register'),

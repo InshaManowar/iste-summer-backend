@@ -60,7 +60,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_count_assigned(self,obj):
         return Task.objects.filter(category=obj).count()
     
-    def get_count_completed(self,obj):
+    def get_count_completed(self,obj): #TODO: Match it for a user through context
         return Submission.objects.filter(task__category=obj).count()  
 
     
