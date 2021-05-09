@@ -41,8 +41,7 @@ class TaskSerializer(serializers.ModelSerializer):
         
 class CategorySerializer(serializers.ModelSerializer):
     organisers = OrganiserSerializer(many=True, read_only=True, source='organiser_set')
-    count_assigned=serializers.SerializerMethodField()
-    count_completed=serializers.SerializerMethodField()
+ 
 
     class Meta:
         model=Category
