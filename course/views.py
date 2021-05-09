@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import STATUS_PUBLISH
 
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def category_view(request):
     category=Category.objects.all()
     context={}
@@ -21,6 +21,7 @@ def category_view(request):
     return Response(context)
 
 @api_view(['GET'])
+@permission_classes([isAuthenticated])
 def profile_view(request):
     category=Category.objects.all()
     context={}
@@ -30,7 +31,7 @@ def profile_view(request):
 
 
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def task_view(request, slug):
     task=Task.objects.filter(status=STATUS_PUBLISH, category__slug=slug)
     print(task)
@@ -42,7 +43,7 @@ def task_view(request, slug):
     return Response(context)
 
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def resources_view(request):
     resources=Resources.objects.all()
     serializer=ResourcesSerializer(resources, many=True)
@@ -50,7 +51,7 @@ def resources_view(request):
 
 
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def submission_view(request):
     submission=Submission.objects.all()
     serializer=SubmissionSerializer(submission, many=True)
@@ -58,7 +59,7 @@ def submission_view(request):
 
 
 @api_view(['POST'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def submit_file(request):
     context={}
     try:
