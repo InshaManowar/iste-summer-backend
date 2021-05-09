@@ -65,7 +65,7 @@ def submit_file(request):
     try:
         user=get_user(request)
         file=request.FILES.get(user,'file')
-        #request.user.save()
+        file.save()
         serializer=SubmissionSerializer(many=True)
         context['status']='successful'
         return Response(context)
