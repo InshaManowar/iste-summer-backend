@@ -34,3 +34,5 @@ class SubmissionAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(Account, AccountAdmin)
+
+

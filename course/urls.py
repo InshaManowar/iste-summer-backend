@@ -8,6 +8,7 @@ app_name='course'
 urlpatterns = [
     path('get_categories/', views.category_view, name='category'),
     path('get_tasks/<slug:slug>', views.task_view, name='task'),
+    path('upload/',views.submit_file, name='submit'),
   
 ]
 

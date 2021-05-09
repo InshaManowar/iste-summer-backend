@@ -67,7 +67,6 @@ class Task(models.Model): #under category
     def __str__(self):
         return self.category.title +"--->"+self.title
     
-    
 class Resources(models.Model): #under tasks
     task=models.ForeignKey(Task, on_delete=models.CASCADE)
     video_link=models.URLField()
@@ -76,21 +75,19 @@ class Resources(models.Model): #under tasks
     class Meta:
         verbose_name_plural=verbose_name='Resources'
 
-
-
 class Submission(models.Model):
-    task=models.ForeignKey(Task, on_delete=models.CASCADE)
+    task=models.ForeignKey(Task, related_name='assigned', on_delete=models.CASCADE)
     account=models.ForeignKey(Account, on_delete=models.CASCADE)
     file=models.FileField(
         upload_to=upload_location_submission, 
                           #validators=[FileExtensionValidator(allowed_extensions=['zip'])]
                         )
     comments=models.TextField(blank=True, null=True)
-    date=models.DateTimeField(verbose_name='submit_date', auto_now_add=True)
+    date=models.DateTimeField(verbose_name='submit_date', auto_now_add=True, null=True)
     def __str__(self):
         return self.task.title+'--->'+self.account.first_name
     
-
+    
 def pre_save_blog_post_receiver(sender, instance, *args, **kwargs):
 	if not instance.slug:
 		instance.slug = slugify(instance.title)
