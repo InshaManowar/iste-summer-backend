@@ -46,15 +46,25 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model=Category
-        fields=('title','slug', 'short_description','startdate','organisers','count_assigned','count_completed')
+        fields=('title','slug', 'short_description','startdate','organisers')
+        
+ 
+    
+class ProfileSerializer(serializers.ModelSerializer):
+    count_assigned=serializers.SerializerMethodField()
+    count_completed=serializers.SerializerMethodField()
+
+    class Meta:
+        model=Category
+        fields=('title','slug', 'short_description','startdate','count_assigned','count_completed')
         
     def get_count_assigned(self,obj):
         return Task.objects.filter(category=obj).count()
     
     def get_count_completed(self,obj):
         return Submission.objects.filter(task__category=obj).count()  
+
     
-      
 class SubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model=Submission

@@ -5,7 +5,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.generics import ListAPIView
 from course.models import Category, Organiser, Submission, Task, Resources
 from rest_framework.response import Response
-from .serializers import CategorySerializer, OrganiserSerializer, TaskSerializer, SubmissionSerializer, ResourcesSerializer
+from .serializers import CategorySerializer, OrganiserSerializer, TaskSerializer, SubmissionSerializer, ResourcesSerializer, ProfileSerializer
 from accounts.utils import get_user
 from rest_framework.permissions import IsAuthenticated
 from .models import STATUS_PUBLISH
@@ -19,6 +19,15 @@ def category_view(request):
     context['status']='successful'
     context['count']=category_serializer.data
     return Response(context)
+
+@api_view(['GET'])
+def profile_view(request):
+    category=Category.objects.all()
+    context={}
+    profile_serializer=ProfileSerializer(category, many=True)
+    context['count']=profile_serializer.data
+    return Response(context)
+
 
 @api_view(['GET'])
 #@permission_classes([IsAuthenticated])
