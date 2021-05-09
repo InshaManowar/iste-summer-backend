@@ -21,7 +21,7 @@ def category_view(request):
     return Response(context)
 
 @api_view(['GET'])
-@permission_classes([isAuthenticated])
+@permission_classes([IsAuthenticated])
 def profile_view(request):
     category=Category.objects.all()
     context={}
