@@ -9,6 +9,8 @@ from .serializers import CategorySerializer, OrganiserSerializer, TaskSerializer
 from accounts.utils import get_user
 from rest_framework.permissions import IsAuthenticated
 from .models import STATUS_PUBLISH
+from rest_framework import status
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -25,7 +27,7 @@ def category_view(request):
 def profile_view(request):
     category=Category.objects.all()
     context={}
-    profile_serializer=ProfileSerializer(category, many=True) #TODO: Pass context of user object into serializer
+    profile_serializer=ProfileSerializer(category, many=True, context={'account':get_user(request)}) #TODO: Pass context of user object into serializer
     context['count']=profile_serializer.data
     return Response(context)
 
@@ -56,25 +58,3 @@ def submission_view(request):
     submission=Submission.objects.all()
     serializer=SubmissionSerializer(submission, many=True)
     return Response(serializer.data)
-
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated]) #FIXME: Create a submission object and save it with appropriate parameters
-def submit_file(request):
-    context={}
-    try:
-        user=get_user(request)
-        file=request.FILES.get(user,'file')
-        file.save()
-        serializer=SubmissionSerializer(many=True)
-        context['status']='successful'
-        return Response(context)
-    except Exception as e:
-        context['status']='unsuccessful'
-        context['error']=e.__str__()
-        print(context)
-        return Response(context)
-    
-    
-    
-    

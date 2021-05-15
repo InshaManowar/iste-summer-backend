@@ -16,8 +16,6 @@ urlpatterns = [
     path('register/', views.registration_view, name='register'),
     path('', views.login_view, name='login'),
     path('logout/', views.login_view, name='logout'),
-    
-    
 ]
 
 
