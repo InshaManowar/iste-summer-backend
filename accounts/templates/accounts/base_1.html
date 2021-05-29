@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang='en'>
+    {% load static %}
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="io-edge">
+    <link rel="stylesheet" href="{% static 'accounts/styles.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    
+    {% block title %}
+        
+    {% endblock title %}
+        
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <img src="{% static 'accounts/iste.png' %}" style="width: 5%; height: 5%; float: left; background: #21212b;">
+            <h4>ISTE Summer School</h4>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <img src="{% static 'accounts/d.png' %}" style="width:16%; height:100%; display: inline-flex; background: #21212b; vertical-align: middle;">
+                <a href="#" class="options">Domains</a>
+            </li>
+            <li>
+                <img src="{% static 'accounts/p.png' %}" style="width:16%; height:100%; display: inline-flex; background: #21212b; vertical-align: middle;">
+                <a href="#">Profile</a>
+            </li>
+            <li>
+                <img src="{% static 'accounts/s.png' %}" style="width:16%; height:100%; display: inline-flex; background: #21212b; vertical-align: middle;">
+                <a href="#">Sign Out</a>
+            </li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+{% block content %}
+    
+{% endblock content %}
+    
+<footer>
+    <p>
+      Checkout our website to know more about ISTE Manipal <i class="fa fa-heart"></i> 
+      <a target="_blank" href="https://istemanipal.com"></a>
+      <!-- Indian Society of Technical Education -->
+      <a target="_blank" href="https://istemanipal.com">here</a>.
+    </p>
+  </footer>
+<script src="{% static 'summerschool/script.js'%}"></script>
+</body>
+</html>
