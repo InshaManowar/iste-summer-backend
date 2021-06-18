@@ -1,8 +1,6 @@
 from rest_framework import serializers
-from course.models import Submission, Category, Task, Resources, Organiser
-from . import models
-from rest_framework.serializers import Serializer, FileField
-from accounts.utils import get_user
+from course.models import Category, Task, Resources, Organiser, Submission
+
 
 
 class OrganiserSerializer(serializers.ModelSerializer):
@@ -53,11 +51,4 @@ class ProfileSerializer(serializers.ModelSerializer):
         return Task.objects.filter(category=obj).count()
     
     def get_count_completed(request,obj):#TODO: Match it for a user through context
-        context={}
-        return Submission.objects.filter(task__category=obj, context={'account':get_user(request)}).count()
-    
-class SubmissionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Submission
-        fields=('comments','date','file')
-        
+        return Submission.objects.filter(task__category=obj).count()
