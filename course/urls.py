@@ -9,7 +9,7 @@ urlpatterns = [
     path('get_categories/', views.category_view, name='category'),
     path('get_tasks/<slug:slug>', views.task_view, name='task'),
     path('profile/',views.profile_view, name='profile'),
-  
+    path('upload/',views.submission, name='submit'),
 ]
 
 

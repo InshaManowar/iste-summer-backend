@@ -22,12 +22,14 @@ class TaskSerializer(serializers.ModelSerializer):
         model=Task
         fields=('uuid','title','description','pdf_file','start_date','last_date','last_date','resources','category','submission')
     def get_submission(self,obj):
-        submissions=Submission.objects.filter(task=obj, account=self.context['account'])
-        if submissions.exists():
-            submission_serializer=SubmissionSerializer(submissions,many=True)
+        try:
+            submissions=Submission.objects.get(task=obj, account=self.context['account'])
+            
+            submission_serializer=SubmissionSerializer(submissions)
             return submission_serializer.data
-        else:
+        except:
             return None
+        
         
     def to_representation(self, instance):
         rep = super(TaskSerializer, self).to_representation(instance)
@@ -52,3 +54,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     
     def get_count_completed(request,obj):#TODO: Match it for a user through context
         return Submission.objects.filter(task__category=obj).count()
+    
+class SubmissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Submission
+        fields = ('__all__')

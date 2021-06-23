@@ -24,7 +24,7 @@ SECRET_KEY = 'g4t3dtzw)&!@7pukg1+jek*co&gk_$rv(2$kswzz=epz+&_lc)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-IS_MAKING_DOCS=False
+IS_MAKING_DOCS=True
 
 ALLOWED_HOSTS = []
 
