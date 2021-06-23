@@ -19,7 +19,7 @@ from rest_framework.parsers import FileUploadParser
 from .serializers import serializers
 
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def category_view(request):
     category=Category.objects.all()
     context={}
@@ -29,7 +29,7 @@ def category_view(request):
     return Response(context)
 
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def profile_view(request):
     category=Category.objects.all()
     context={}
@@ -39,7 +39,7 @@ def profile_view(request):
 
 
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def task_view(request, slug):
     task=Task.objects.filter(status=STATUS_PUBLISH, category__slug=slug)
     print(task)
@@ -66,7 +66,7 @@ def submission_view(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def submission(request):
     #folder = 'submissions/'
     #serializer = SubmissionSerializer(data=request.data)
