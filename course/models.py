@@ -51,7 +51,6 @@ class Organiser(models.Model): #under category
     def __str__(self):
         return self.name
 
-
 class Task(models.Model): #under category
     uuid= ShortUUIDField(unique=True)
     category=models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category')

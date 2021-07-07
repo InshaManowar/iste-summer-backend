@@ -52,10 +52,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_count_assigned(self,obj):
         return Task.objects.filter(category=obj).count()
     
-    def get_count_completed(request,obj):#TODO: Match it for a user through context
+    def get_count_completed(request,obj):
         return Submission.objects.filter(task__category=obj).count()
     
 class SubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Submission
         fields = ('__all__')
+        

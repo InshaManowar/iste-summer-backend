@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from summerschool import settings
 from summerschool.settings import IS_MAKING_DOCS
 
 def get_user(request) :

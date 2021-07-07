@@ -1,6 +1,6 @@
 {% extends 'accounts/base.html' %}
 
-
+{% load static %}
 {% block head %}
 <link href='https://fonts.googleapis.com/css?family=Josefin Sans' rel='stylesheet'>
 
@@ -10,10 +10,12 @@
   * {
     box-sizing: border-box;
   }
-  
+  .ghost a{
+    color: white;
+  }
   body {
-    background-color: #f3e6e8;
-background-image: linear-gradient(315deg, #f3e6e8 0%, #d5d0e5 74%);
+    
+background-image: linear-gradient(#141e30 0%, #243b55 74%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,7 +59,7 @@ background-image: linear-gradient(315deg, #f3e6e8 0%, #d5d0e5 74%);
   button, .button-login {
     border-radius: 20px;
     border: 1px solid #0e0f1f;
-    background-color: #161e20;
+    background-color: #141e30;
     color: #FFFFFF;
     font-size: 12px;
     font-weight: bold;
@@ -177,9 +179,8 @@ background-image: linear-gradient(315deg, #f3e6e8 0%, #d5d0e5 74%);
   
   .overlay {
     
-    background: #181820;
-    background: -webkit-linear-gradient(to right, #181820, #181820);
-    background: linear-gradient(to right, #080622, #1f1c36);
+    background: #243b55;
+    
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;
@@ -223,6 +224,22 @@ background-image: linear-gradient(315deg, #f3e6e8 0%, #d5d0e5 74%);
     right: 0;
     transform: translateX(0);
   }
+  .sign-in-container-2 {
+    left: 50px;
+    width: 80%;
+    z-index: 2;
+  }
+  .container-2 {
+    background-color: #fff;
+    border-radius: 10px;
+      box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+        0 10px 10px rgba(0,0,0,0.22);
+    position: relative;
+    overflow: hidden;
+    width: 60%;
+    max-width: 100%;
+    min-height: 1200px;
+  }
   
   .container.right-panel-active .overlay-right {
     transform: translateX(20%);
@@ -262,10 +279,18 @@ background-image: linear-gradient(315deg, #f3e6e8 0%, #d5d0e5 74%);
   footer i {
       color: red;
   }
+
+  .container-2 input{
+    font-size: 200% !important;
+  }
   
   footer a {
       color: #3c97bf;
       text-decoration: none;
+  }
+  .errorlist li{
+    font-size: 8.5px;
+    color: red;
   }
   
   .main-block{
@@ -289,18 +314,18 @@ background-image: linear-gradient(315deg, #f3e6e8 0%, #d5d0e5 74%);
 
 <div class="main-block"></div>
   
-<h2>ISTE Summer School 2021</h2>
+<!-- <h2>ISTE Summer School 2021</h2> -->
 
 
-    <div class="container" id="container">
+    <div class="container d-none d-lg-block" id="container">
     
       <div class="form-container sign-in-container">
         <form class="form-signin" method="POST">
           {% csrf_token %}
           <div class = "logo">
-            <img src="https://istemanipal.com/static/images/ISTELOG.png" alt="Iste Logo" width="100" height="100">
+            <img src="{% static 'accounts/iste.png' %}" alt="Iste Logo" width="100" height="100">
           </div>
-          <h1>Register</h1>
+          <h1 style="color: #243b55;">Register</h1>
           {{registration_form}}
         <div class="field">
           <input class="button-login" type="submit" value="Register">
@@ -311,7 +336,7 @@ background-image: linear-gradient(315deg, #f3e6e8 0%, #d5d0e5 74%);
         <div class="overlay">
    
           <div class="overlay-panel overlay-right">
-            <h1>Hello, Friend!</h1>
+            <h1> Summer School 2021 </h1>
             <p>Enter your details and start learning with us</p>
             <button 
             class="ghost color-text" id="signUp"><a href="{% url 'accounts:login' %}">Login</a></button>
@@ -320,6 +345,40 @@ background-image: linear-gradient(315deg, #f3e6e8 0%, #d5d0e5 74%);
       </div>
     </div>
   </div>
+
+  
+  <div class="container-2 d-lg-none text-center" id="container">
+    
+    <div class="form-container sign-in-container-2 text-center">
+      <form class="form-signin" method="POST">
+        {% csrf_token %}
+        <div class = "logo" style="margin: 5% !important;">
+          <img src="{% static 'accounts/iste.png' %}" alt="Iste logo" width="100" height="100">
+        </div>
+        <h1 style="font-size: 430%; margin-bottom:5%;">Register</h1>
+        {{registration_form}}
+
+    
+  <div class="field">
+    <input style="font-size: 190%; margin-top: 18%;" class="button-login" type="submit" value="Register">
+</div>    {% for field in registration_form %}
+
+<p>
+    {% for error in field.errors %}
+        <p style="color: red;">{{error}}</p>
+    {% endfor %}
+</p>
+{% endfor %}
+{% if registration_form.non_field_errors %}
+<div style="color:red;">
+  <p>{{registration_form.non_field_errors}}</p>
+</div>
+{% endif %}
+</form>
+    </div>
+   
+      </div>
+    </div>
     <footer>
       <p>
         Created with ❤️ by
