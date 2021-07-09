@@ -24,7 +24,7 @@ SECRET_KEY = 'g4t3dtzw)&!@7pukg1+jek*co&gk_$rv(2$kswzz=epz+&_lc)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-IS_MAKING_DOCS=True
+IS_MAKING_DOCS = False
 
 ALLOWED_HOSTS = []
 
@@ -38,9 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    #my apps
-    
+
+    # my apps
+
     'accounts',
     'phonenumber_field',
     'rest_framework',
@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'summerschool.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR , 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -106,13 +106,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
-EMAIL_USE_TLS = True 
-EMAIL_USE_SSL = False 
-EMAIL_HOST = 'smtp.gmail.com' 
-EMAIL_PORT = 587  
-EMAIL_HOST_USER = 'isterecruitments2020@gmail.com' 
-EMAIL_HOST_PASSWORD = 'ohrdkoowygjivjse' 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'isterecruitments2020@gmail.com'
+EMAIL_HOST_PASSWORD = 'ohrdkoowygjivjse'
 
 
 # Internationalization
@@ -140,7 +140,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
 
 REST_FRAMEWORK = {
-   'DEFAULT_AUTHENTICATION_CLASSES': (
-       'rest_framework.authentication.SessionAuthentication',
-   ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
 }
