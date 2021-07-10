@@ -3,9 +3,14 @@ from course.models import Category, Task, Resources, Organiser, Submission
 
 
 class OrganiserSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
     class Meta:
         model = Organiser
         fields = ('name', 'contact')
+
+    def get_name(self, obj):
+        return obj.account.first_name + " " + obj.account.last_name
 
 
 class ResourcesSerializer(serializers.ModelSerializer):
@@ -17,13 +22,12 @@ class ResourcesSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     resources = ResourcesSerializer(
         many=True, read_only=True, source='resources_set')
-    category = serializers.StringRelatedField()
     submission = serializers.SerializerMethodField()
 
     class Meta:
         model = Task
         fields = ('uuid', 'title', 'description', 'pdf_file', 'start_date',
-                  'last_date', 'resources', 'category', 'submission')
+                  'last_date', 'resources', 'submission',)
 
     def get_submission(self, obj):
         try:
@@ -35,20 +39,13 @@ class TaskSerializer(serializers.ModelSerializer):
         except:
             return None
 
-    def to_representation(self, instance):
-        rep = super(TaskSerializer, self).to_representation(instance)
-        rep['category'] = instance.category.title
-        return rep
-
 
 class CategorySerializer(serializers.ModelSerializer):
-    organisers = OrganiserSerializer(
-        many=True, read_only=True, source='organiser_set')
 
     class Meta:
         model = Category
         fields = ('title', 'slug', 'short_description',
-                  'startdate', 'organisers')
+                  'startdate')
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -70,4 +67,4 @@ class ProfileSerializer(serializers.ModelSerializer):
 class SubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Submission
-        fields = ('__all__')
+        fields = ('comments', 'date', 'file')

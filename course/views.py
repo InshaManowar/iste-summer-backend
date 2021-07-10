@@ -42,6 +42,7 @@ def profile_view(request):
             'account': get_user(request)
         }
     )
+    context['status'] = 'successful'
     context['count'] = profile_serializer.data
     return Response(context)
 
@@ -49,12 +50,20 @@ def profile_view(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def task_view(request, slug):
-    task = Task.objects.filter(status=STATUS_PUBLISH, category__slug=slug)
     context = {}
-    serializer = TaskSerializer(task, many=True, context={
-                                'account': get_user(request)})
-    context['status'] = 'successful'
-    context['tasks'] = serializer.data
+    try:
+        category = Category.objects.get(slug=slug)
+        task = Task.objects.filter(status=STATUS_PUBLISH, category__slug=slug)
+
+        serializer = TaskSerializer(task, many=True, context={
+                                    'account': get_user(request)})
+        context['status'] = 'successful'
+        context['tasks'] = serializer.data
+        context['category_title'] = category.title
+    except Exception as e:
+        print(e)
+        context['status'] = 'unsuccessful'
+        context['error'] = 'invalid slug'
 
     return Response(context)
 

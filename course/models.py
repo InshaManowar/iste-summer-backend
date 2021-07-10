@@ -45,11 +45,12 @@ class Category(models.Model):
 
 class Organiser(models.Model):  # under category
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    name = models.CharField(max_length=150)
+    account = models.ForeignKey(
+        to=Account, on_delete=models.CASCADE)
     contact = models.CharField(max_length=14)
 
     def __str__(self):
-        return self.name
+        return self.account.first_name + " " + self.account.last_name
 
 
 class Task(models.Model):  # under category
