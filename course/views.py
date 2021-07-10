@@ -60,6 +60,8 @@ def task_view(request, slug):
         context['status'] = 'successful'
         context['tasks'] = serializer.data
         context['category_title'] = category.title
+        context['organisers'] = OrganiserSerializer(
+            category.organiser_set.all(), many=True,).data
     except Exception as e:
         print(e)
         context['status'] = 'unsuccessful'
