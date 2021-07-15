@@ -1,10 +1,11 @@
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.utils.text import slugify
 
 from django.core.validators import FileExtensionValidator
 from shortuuidfield import ShortUUIDField
 from accounts.models import Account
+from .utils import Email
 
 
 def upload_location(instance, filename, *kwargs):
@@ -105,4 +106,15 @@ def pre_save_blog_post_receiver(sender, instance, *args, **kwargs):
         instance.slug = slugify(instance.title)
 
 
+def send_email_after_commenting(sender, instance, *args, **kwargs):
+    try:
+        old_object = sender.objects.get(pk=instance.pk)
+        if old_object.comments.strip() != instance.comments.strip():
+            email = Email()
+            email.send_admin_commented_email(instance)
+    except Exception as e:
+        print(e.__str__())
+
+
 pre_save.connect(pre_save_blog_post_receiver, sender=Category)
+pre_save.connect(send_email_after_commenting, sender=Submission)

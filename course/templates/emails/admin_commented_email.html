@@ -1,0 +1,38 @@
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+</style>
+
+Dear {{first_name}} {{last_name}}, <br/> <br/>
+You are recieving this email because the mentor of {{category}} has gone through your submission and has commented on the same. Kindly go through the same by logging in to the portal and if you have any doubts, you can always reach out to the mentor(s). The list of the mentors for {{category}} is: <br/>
+
+<table>
+    <tr>
+      <th>Name</th>
+      <th>Contact</th>
+      {%for organiser in organisers%}
+      <tr>
+          <td>{{organiser.account.first_name}} {{organiser.account.last_name}}</td>
+          <td>{{organiser.contact}}</td>
+      </tr>
+      {%endfor%}
+    </tr>
+   
+  </table>
+  <br/><br/>
+
+Yours sincerely,<br/>
+ISTE Manipal Summer School Team
