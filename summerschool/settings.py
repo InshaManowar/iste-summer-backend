@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+# TODO: Admin panel changes
+
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -63,7 +65,7 @@ ROOT_URLCONF = 'summerschool.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,7 +131,7 @@ USE_L10N = True
 USE_TZ = True
 
 LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = 'admin:index'
+LOGIN_REDIRECT_URL = 'accounts:home'
 AUTH_USER_MODEL = 'accounts.Account'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -137,6 +139,8 @@ AUTH_USER_MODEL = 'accounts.Account'
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'build/static')]
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
 
 REST_FRAMEWORK = {

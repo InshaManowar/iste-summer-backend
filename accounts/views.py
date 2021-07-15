@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect,get_object_or_404,reverse
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+
 from accounts.forms import RegistrationForm, AccountAuthenticationForm
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
@@ -10,11 +12,12 @@ from .serializers import UserSerializer
 from .models import Account
 from .utils import get_user
 
-from summerschool.settings import LOGIN_REDIRECT_URL
+from summerschool.settings import LOGIN_REDIRECT_URL, LOGIN_URL
+
 
 def registration_view(request):
     context = {}
-    if request.method=='POST':
+    if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -25,26 +28,28 @@ def registration_view(request):
             return redirect(reverse('accounts:login'))
         else:
             context['registration_form'] = form
-            
-        
+
     else:
         form = RegistrationForm()
     context['registration_form'] = form
     return render(request, 'accounts/register.html', context)
 
+
 def registrationConfirm_view(request):
     return render(request, 'accounts/register_confirm.html')
 
+
 def logout_view(request):
-	logout(request)
-	return render (request, 'accounts/logout.html')
+    logout(request)
+    return render(request, 'accounts/logout.html')
+
 
 def login_view(request):
     context = {}
     user = request.user
     if user.is_authenticated:
         return redirect(reverse(LOGIN_REDIRECT_URL))
-    if request.POST:
+    if request.method == 'POST':
         form = AccountAuthenticationForm(request.POST)
         if form.is_valid():
             email = request.POST['email']
@@ -53,19 +58,28 @@ def login_view(request):
             if user:
                 login(request, user)
                 return redirect(reverse(LOGIN_REDIRECT_URL))
+
     else:
         form = AccountAuthenticationForm()
 
     context['login_form'] = form
-    return render(request, 'accounts/login.html', context)
+    return render(request, 'accounts/login.html', context=context)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(reverse(LOGIN_URL))
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_logged_in_user(request):
     context = {}
-    serializer=UserSerializer(get_user(request))
-    context['user']=serializer.data
+    serializer = UserSerializer(get_user(request))
+    context['user'] = serializer.data
     return Response(context)
 
 
+@login_required
+def home(request, *args, **kwargs):
+    return render(request, 'index.html')

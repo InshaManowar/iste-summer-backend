@@ -27,7 +27,7 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ('uuid', 'title', 'description', 'pdf_file', 'start_date',
-                  'last_date', 'resources', 'submission',)
+                  'last_date', 'resources', 'submission', 'is_github')
 
     def get_submission(self, obj):
         try:
@@ -67,4 +67,4 @@ class ProfileSerializer(serializers.ModelSerializer):
 class SubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Submission
-        fields = ('comments', 'date', 'file')
+        fields = ('comments', 'date', 'file', 'github_link')

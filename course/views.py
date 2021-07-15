@@ -1,21 +1,24 @@
 from django.shortcuts import render
+from django.core.files.storage import FileSystemStorage
+
+
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.decorators import permission_classes
 from rest_framework.generics import ListAPIView
-from course.models import Category, Organiser, Submission, Task, Resources
 from rest_framework.response import Response
-from .serializers import CategorySerializer, OrganiserSerializer, SubmissionSerializer, TaskSerializer, ResourcesSerializer, ProfileSerializer
-from accounts.utils import get_user
-from rest_framework.permissions import IsAuthenticated
-from .models import STATUS_PUBLISH
-from rest_framework.views import APIView
-from django.core.files.storage import FileSystemStorage
-
 from rest_framework import status
 from rest_framework.exceptions import ParseError
 from rest_framework.parsers import FileUploadParser
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
+
+from course.models import Category, Organiser, Submission, Task, Resources
+from accounts.utils import get_user
+
+from .serializers import CategorySerializer, OrganiserSerializer, SubmissionSerializer, TaskSerializer, ResourcesSerializer, ProfileSerializer
+from .models import STATUS_PUBLISH
 from .serializers import serializers
 
 
@@ -95,12 +98,16 @@ def submission(request):
         submission = Submission.objects.create(
             task=task,
             account=get_user(request),
-            file=request.FILES.get('file')
+            file=request.FILES.get('file', None),
+            github_link=request.data.get('github_link', None)
         )
         context['status'] = 'successful'
-        context['file'] = submission.file.url
+        context['file'] = submission.file.url if not task.is_github else submission.github_link
 
-    except:
+    except Exception as e:
         context['status'] = 'unsuccessful'
-        context['error'] = 'UUID Invalid'
+        context['error'] = e.__str__()
     return Response(context)
+
+
+# views for main website:

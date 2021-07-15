@@ -65,6 +65,8 @@ class Task(models.Model):  # under category
     start_date = models.DateTimeField(verbose_name='start_date')
     last_date = models.DateTimeField(
         verbose_name='last_date', blank=True, null=True)
+    is_github = models.BooleanField(
+        default=False, verbose_name='If you want the participant to provide a GitHub link please select this', )
 
     def __str__(self):
         return self.category.title + "--->"+self.title
@@ -85,10 +87,14 @@ class Submission(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     file = models.FileField(
         upload_to=upload_location_submission,
+        null=True,
+        default=None,
+        blank=True
     )
-    comments = models.TextField(blank=True, null=True)
+    comments = models.TextField(null=True)
     date = models.DateTimeField(
         verbose_name='submit_date', auto_now_add=True, null=True)
+    github_link = models.URLField(null=True, default=None, blank=True)
 
     def __str__(self):
         return self.task.title+'--->'+self.account.first_name

@@ -333,11 +333,7 @@
       </div>
       <div class="overlay-container">
         <div class="overlay">
-          <!-- <div class="overlay-panel overlay-left">
-            <h1>Welcome Back!</h1>
-            <p>To keep connected with us please login with your personal info</p>
-            <button class="ghost" id="signIn">Sign In</button>
-          </div> -->
+  
           <div class="overlay-panel overlay-right ">
             <h1>Summer School 2021</h1>
             <p>Enter your details and let's learn together!</p>
@@ -349,8 +345,6 @@
       </div>
     </div>
 
-    <!-- MObile view -->
-
 
     <div class="container-2 d-lg-none text-center" id="container">
     
@@ -361,9 +355,7 @@
             <img src="{% static 'accounts/iste.png' %}" alt="ISTE logo" width="100" height="100">
           </div>
           <h1 style="font-size: 430%; margin-bottom: 3%;">Sign in</h1>
-          <input style="font-size: 200%;" type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>   
-          
-          <input style="font-size: 200%;" type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+          {{login_form}}
           <a style="font-size: 120%;" href="{% url 'password_reset' %}">Forgot your password?</a>
           <a style="font-size: 120%;" href="{% url 'accounts:register'  %}">Not a member yet? Register now!</a>
       
@@ -383,7 +375,7 @@
     <footer>
       <p>
         Created with ❤️ by
-        <!-- Indian Society of Technical Education -->
+   
         <a target="_blank" href="https://istemanipal.com">ISTE Manipal</a>.
       </p>
     </footer>

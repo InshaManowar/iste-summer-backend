@@ -5,25 +5,33 @@ from django.contrib.auth.admin import UserAdmin
 from course.models import Submission, Category, Task, Resources, Organiser
 
 
-class TaskAdmin(admin.StackedInline):
-    model = Task
-
-
-class OrganiserAdmin(admin.StackedInline):
-    model = Organiser
-
-
-class SubmissionAdmin(admin.StackedInline):
-    model = Submission
-
-
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('title', 'startdate',)
-    inlines = [OrganiserAdmin, TaskAdmin]
-
-
 class ResourcesAdmin(admin.StackedInline):
     model = Resources
+    extra = 1
+
+    def has_change_permission(self, request, obj=None):
+        if obj:
+            if obj.category.organiser_set.filter(account=request.user).exists():
+                return True
+            else:
+                return False
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        if obj:
+            if obj.category.organiser_set.filter(account=request.user).exists():
+                return True
+            else:
+                return False
+        return True
+
+    def has_add_permission(self, request, obj=None):
+        if obj:
+            if obj.category.organiser_set.filter(account=request.user).exists():
+                return True
+            else:
+                return False
+        return True
 
 
 @admin.register(Task)
@@ -31,7 +39,69 @@ class TaskAdmin(admin.ModelAdmin):
     list_display = ('category', 'status', 'start_date',
                     'last_date', 'pdf_file',)
 
-    inlines = [SubmissionAdmin, ResourcesAdmin]
+    inlines = [ResourcesAdmin]
+
+    def has_change_permission(self, request, obj=None):
+        if obj:
+            if obj.category.organiser_set.filter(account=request.user).exists():
+                return True
+            else:
+                return False
+        return True
+
+    def has_add_permission(self, request, obj=None):
+        if obj:
+            if obj.category.organiser_set.filter(account=request.user).exists():
+                return True
+            else:
+                return False
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        if obj:
+            if obj.category.organiser_set.filter(account=request.user).exists():
+                return True
+            else:
+                return False
+        return True
+
+
+class TaskStackedAdmin(admin.StackedInline):
+    model = Task
+    list_display = ('category', 'status', 'start_date',
+                    'last_date', 'pdf_file',)
+
+    extra = 1
+
+    def has_change_permission(self, request, obj=None):
+        if obj:
+            if obj.organiser_set.filter(account=request.user).exists():
+                return True
+            else:
+                return False
+        return True
+
+    def has_add_permission(self, request, obj):
+        if obj:
+            if obj.organiser_set.filter(account=request.user).exists():
+                return True
+            else:
+                return False
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        if obj:
+            if obj.organiser_set.filter(account=request.user).exists():
+                return True
+            else:
+                return False
+        return True
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('title', 'startdate',)
+    inlines = [TaskStackedAdmin]
 
 
 @admin.register(Organiser)
@@ -42,9 +112,18 @@ class OrganiserAdmin(admin.ModelAdmin):
         return obj.account.first_name + " "+obj.account.last_name
 
 
-@admin.register(Resources)
-class ResourcesAdmin(admin.ModelAdmin):
-    list_display = ('video_title', 'task',)
+@admin.register(Submission)
+class SubmissionAdmin(admin.ModelAdmin):
+    list_display = ['category', 'task', 'name', ]
+    search_fields = ['task__category__title', 'task__title',
+                     'account__first_name', 'account__last_name']
+    list_filter = ['task__category__title', ]
 
+    def category(self, obj):
+        return obj.task.category.title
 
-admin.site.register(Category, CategoryAdmin)
+    def task(self, obj):
+        return obj.task.title
+
+    def name(self, obj):
+        return obj.account.first_name + " "+obj.account.last_name

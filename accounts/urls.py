@@ -4,15 +4,16 @@ from django.contrib import admin
 from . import views
 
 
-app_name='accounts'
+app_name = 'accounts'
 
 
 urlpatterns = [
     path('api/get_user/', views.get_logged_in_user, name='login_user_api'),
     path('register/', views.registration_view, name='register'),
-    path('', views.login_view, name='login'),
-    path('logout/', views.login_view, name='logout'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+
+    path('', views.home, name="home"),
+    path('tasks/<slug:category>', views.home, name="categories"),
+    path('tasks/<slug:category>/<str:task_uuid>', views.home, name="tasks"),
 ]
-
-
-
