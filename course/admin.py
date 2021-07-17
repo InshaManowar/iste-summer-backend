@@ -103,13 +103,32 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title', 'startdate',)
     inlines = [TaskStackedAdmin]
 
+    def has_change_permission(self, request, obj=None):
+        if obj:
+            if obj.organiser_set.filter(account=request.user).exists():
+                return True
+            else:
+                return False
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        if obj:
+            if obj.organiser_set.filter(account=request.user).exists():
+                return True
+            else:
+                return False
+        return True
+
 
 @admin.register(Organiser)
 class OrganiserAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'category')
 
     def name(self, obj):
         return obj.account.first_name + " "+obj.account.last_name
+
+    def category(self, obj):
+        return obj.category.titles
 
 
 @admin.register(Submission)
