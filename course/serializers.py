@@ -45,7 +45,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('title', 'slug', 'short_description',
-                  'startdate')
+                  'startdate', 'icon')
 
 
 class ProfileSerializer(serializers.ModelSerializer):

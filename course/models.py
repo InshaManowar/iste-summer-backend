@@ -35,6 +35,7 @@ class Category(models.Model):
     short_description = models.TextField(default='')
     startdate = models.DateTimeField()
     slug = models.SlugField(max_length=200, unique=True, blank=True)
+    icon = models.ImageField(null=True, upload_to='icons')
 
     class Meta:
         ordering = ['startdate']
