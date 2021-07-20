@@ -55,7 +55,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('title', 'slug', 'short_description',
-                  'startdate', 'count_assigned', 'count_completed')
+                  'startdate', 'count_assigned', 'count_completed', 'icon')
 
     def get_count_assigned(self, obj):
         return Task.objects.filter(category=obj).count()
