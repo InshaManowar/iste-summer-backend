@@ -112,7 +112,10 @@ def pre_save_blog_post_receiver(sender, instance, *args, **kwargs):
 def send_email_after_commenting(sender, instance, *args, **kwargs):
     try:
         old_object = sender.objects.get(pk=instance.pk)
-        if old_object.comments.strip() != instance.comments.strip():
+        if old_object.comments is None:
+            email = Email()
+            email.send_admin_commented_email(instance)
+        elif old_object.comments.strip() != instance.comments.strip():
             email = Email()
             email.send_admin_commented_email(instance)
     except Exception as e:
