@@ -36,7 +36,7 @@ class ResourcesAdmin(admin.StackedInline):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('category', 'title', 'status', 'start_date',
+    list_display = ('title', 'category', 'status', 'start_date',
                     'last_date', 'pdf_file', )
 
     list_filter = ['category__title']
