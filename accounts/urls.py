@@ -16,5 +16,5 @@ urlpatterns = [
     path('', views.home, name="home"),
     path('tasks/<slug:category>', views.home, name="categories"),
     path('tasks/<slug:category>/<str:task_uuid>', views.home, name="tasks"),
-    path('profile', views.home, name="home"),
+    path('profile', views.home, name="profile"),
 ]
