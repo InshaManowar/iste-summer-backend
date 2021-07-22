@@ -5,6 +5,8 @@ from django.utils.text import slugify
 from django.core.validators import FileExtensionValidator
 from shortuuidfield import ShortUUIDField
 from accounts.models import Account
+from tinymce.models import HTMLField
+
 from .utils import Email
 
 
@@ -60,7 +62,7 @@ class Task(models.Model):  # under category
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name='category')
     title = models.CharField(max_length=100)
-    description = models.TextField(blank=True, default=None)
+    description = HTMLField(blank=True, default=None)
     pdf_file = models.FileField(upload_to=upload_location, validators=[
                                 FileExtensionValidator(allowed_extensions=['pdf'])])
     status = models.IntegerField(choices=STATUS, default=0)
