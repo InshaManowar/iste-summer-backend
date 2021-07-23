@@ -135,7 +135,7 @@ class OrganiserAdmin(admin.ModelAdmin):
 
 @admin.register(Submission)
 class SubmissionAdmin(admin.ModelAdmin):
-    list_display = ['category', 'task', 'name', ]
+    list_display = ['category', 'task', 'name', 'corrected']
     search_fields = ['task__category__title', 'task__title',
                      'account__first_name', 'account__last_name']
     list_filter = ['task__category__title', ]
@@ -149,6 +149,10 @@ class SubmissionAdmin(admin.ModelAdmin):
 
     def name(self, obj):
         return obj.account.first_name + " "+obj.account.last_name
+
+    def corrected(self, obj):
+        return obj.comments is not None
+    corrected.boolean = True
 
     def has_change_permission(self, request, obj=None):
         if obj:
