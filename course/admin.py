@@ -149,3 +149,11 @@ class SubmissionAdmin(admin.ModelAdmin):
 
     def name(self, obj):
         return obj.account.first_name + " "+obj.account.last_name
+
+    def has_change_permission(self, request, obj=None):
+        if obj:
+            if obj.task.category.organiser_set.filter(account=request.user).exists():
+                return True
+            else:
+                return False
+        return True
