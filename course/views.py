@@ -3,6 +3,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, HttpResponse
 from django.db.models import Q
+from django.db import IntegrityError
 
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
@@ -106,8 +107,13 @@ def submission(request):
         )
         context['status'] = 'successful'
         context['file'] = submission.file.url if not task.is_github else submission.github_link
+        context['submission'] = SubmissionSerializer(submission).data
         email = Email()
         email.send_submission_email(request, submission)
+
+    except IntegrityError as e:
+        context['status'] = 'unsuccessful'
+        context['error'] = 'You might have already submitted'
 
     except Exception as e:
         context['status'] = 'unsuccessful'
