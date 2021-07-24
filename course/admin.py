@@ -139,7 +139,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     search_fields = ['task__category__title', 'task__title',
                      'account__first_name', 'account__last_name']
     list_filter = ['task__category__title', ]
-    #readonly_fields = ['task', 'account', 'file', 'date', 'github_link']
+    readonly_fields = ['task', 'account', 'file', 'date', 'github_link']
 
     def category(self, obj):
         return obj.task.category.title
