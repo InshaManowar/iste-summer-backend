@@ -144,7 +144,7 @@ def get_certificate(request, category_slug):
 
                 certificate_file.seek(0)
 
-                return FileResponse(certificate_file, filename='certificate.jpeg', as_attachment=True)
+                return FileResponse(certificate_file, filename=f'{tasks[0].category.title}.png', as_attachment=True)
         else:
             certificate_file = certificate.make_error_file(
                 'Please complete the course first')
