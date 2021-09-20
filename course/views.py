@@ -138,7 +138,7 @@ def get_certificate(request, category_slug):
 
             else:
                 duration = (
-                    int((tasks[len(tasks)-1].start_date - tasks[0].start_date).days/7))
+                    int((tasks[len(tasks)-1].last_date - tasks[0].start_date).days/7))
                 certificate_file = certificate.make_certificate(
                     request.user, tasks[0].category.title, duration)
 
